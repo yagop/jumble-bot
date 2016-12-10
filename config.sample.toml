@@ -1,0 +1,5 @@
+BotToken = "123456:AABBBCCCC"
+AdminId = 11696011
+Debug = false
+TorrentDownloadPath = "/tmp"
+ChatIdToKickUsersFrom = -21005536
