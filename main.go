@@ -56,7 +56,7 @@ func autoKickHandler(update *tgbotapi.Update, bot *tgbotapi.BotAPI) {
 			new_chat_member := update.Message.NewChatMember
 			log.Printf("New chat member on %d: %s", chat_id, new_chat_member.FirstName)
 			text := fmt.Sprintf("%s we have moved to https://web.telegram.org/#/im?p=@tgbotchat", new_chat_member.FirstName)
-			tgbotapi.NewMessage(chat_id, text)
+			bot.send(tgbotapi.NewMessage(chat_id, text))
 			resp, err := bot.KickChatMember(tgbotapi.ChatMemberConfig{chat_id, "", new_chat_member.ID})
 			if err != nil {
 				log.Fatal(err)
