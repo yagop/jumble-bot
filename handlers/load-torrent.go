@@ -1,12 +1,12 @@
 package handlers
 
 import (
-	"log"
-  "fmt"
+	"fmt"
 	"gopkg.in/telegram-bot-api.v4"
+	"log"
 
 	"github.com/yagop/jumble-bot/config"
-  "github.com/yagop/jumble-bot/utils"
+	"github.com/yagop/jumble-bot/utils"
 )
 
 func LoadTorrent(update *tgbotapi.Update, bot *tgbotapi.BotAPI, replyHandler *ReplyIdHandler, config *config.TomlConfig) {

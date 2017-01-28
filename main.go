@@ -6,6 +6,7 @@ import (
 	"log"
 
 	"github.com/yagop/jumble-bot/config"
+	"github.com/yagop/jumble-bot/fetchers"
 	"github.com/yagop/jumble-bot/handlers"
 )
 
@@ -22,7 +23,7 @@ func main() {
 	log.Printf("TorrentDownloadPath: %s\n", tomlConfig.TorrentDownloadPath)
 
 	bot, err := tgbotapi.NewBotAPI(tomlConfig.BotToken)
-	bot.Debug = true
+	bot.Debug = tomlConfig.Debug
 	if err != nil {
 		log.Panic(err)
 	}
@@ -33,12 +34,19 @@ func main() {
 	botConfig := tgbotapi.UpdateConfig{0, 0, 30}
 
 	updates, err := bot.GetUpdatesChan(botConfig)
-	for update := range updates {
-		log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
-		if update.Message != nil {
-			handlers.LoadTorrent(&update, bot, &replyHandler, &tomlConfig)
-			handlers.AutoKick(&update, bot, &tomlConfig)
-			replyHandler.Process(&update, bot)
+	bbmessages, err := fetchers.BitBucket(&tomlConfig)
+
+	for {
+		select {
+		case update := <-updates:
+			log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
+			if update.Message != nil {
+				handlers.LoadTorrent(&update, bot, &replyHandler, &tomlConfig)
+				handlers.AutoKick(&update, bot, &tomlConfig)
+				replyHandler.Process(&update, bot)
+			}
+		case message := <-bbmessages:
+			bot.Send(message)
 		}
 	}
 }

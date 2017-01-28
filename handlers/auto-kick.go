@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	"log"
-  "fmt"
+	"fmt"
 	"gopkg.in/telegram-bot-api.v4"
+	"log"
 
 	"github.com/yagop/jumble-bot/config"
 )
