@@ -1,4 +1,4 @@
-package main
+package utils
 
 import (
 	"io"
@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-func downloadFile(url string, download_path string) (int64, error) {
+func DownloadFile(url string, download_path string) (int64, error) {
 	log.Printf("Downloading %s to %s", url, download_path)
 	out, err := os.Create(download_path)
 	if err != nil {

@@ -1,4 +1,4 @@
-package main
+package handlers
 
 import (
 	"gopkg.in/telegram-bot-api.v4"
@@ -19,13 +19,13 @@ type ReplyIdHandler struct {
 }
 
 // Register a callback to be executed when arrives a message with ID messageId
-func (handler *ReplyIdHandler) add(messageId int, callaback MessageCallbackFunction) {
+func (handler *ReplyIdHandler) Add(messageId int, callaback MessageCallbackFunction) {
 	log.Printf("Registered callback for message: %d", messageId)
 	handler.Callbacks = append(handler.Callbacks, MessageReplyCall{messageId, callaback})
 }
 
 // Execute the callbacks registered on messageReplyCallRegister
-func (handler *ReplyIdHandler) process(update *tgbotapi.Update, bot *tgbotapi.BotAPI) {
+func (handler *ReplyIdHandler) Process(update *tgbotapi.Update, bot *tgbotapi.BotAPI) {
 	if update.Message.ReplyToMessage != nil {
 		repliedMessageID := update.Message.ReplyToMessage.MessageID
 		log.Printf("ReplyToMessage: %d", repliedMessageID)
